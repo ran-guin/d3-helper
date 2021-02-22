@@ -26,26 +26,33 @@
               tr
                 td 
                   h3.message Type: 
-                td(v-if='Column.unique_count === Column.count')
-                  b.coloured Unique index
-                td(v-else-if='Column.numeric')
-                  b.coloured Int
-                td(v-else-if='Column.decimal')
-                  b.coloured Decimal
-                td(v-else-if='Column.min_length === Column.max_length') 
-                  b.coloured FixedLength [{{Column.min_length}}]
-                td(v-else-if='Column.non_zero_unique_count <= maxEnum')
-                  b.coloured FK or ENUM
-                td(v-else-if='(Column.non_zero_count > Column.non_zero_unique_count) && (Column.non_zero_unique_count < maxEnum)')
-                  b.coloured FK or Enum
-                td(v-else-if='Column.non_zero_count > Column.non_zero_unique_count')
-                  b.coloured FK
-                td(v-else)
-                  b.coloured VARCHAR(255)
+                td
+                  b.coloured {{Column.type}} &nbsp;
+
+                  span(v-if='Column.numeric')
+                    b.coloured (Int) &nbsp;
+                  span(v-else-if='Column.decimal')
+                    b.coloured (Decimal) &nbsp;
+                  span(v-else-if='Column.date')
+                    b.coloured (Date) &nbsp;
+                  span(v-else-if='Column.time')
+                    b.coloured (Date) &nbsp;
+                  span(v-else)
+                    b.coloured (VARCHAR) &nbsp;
+
+                  span(v-if='Column.min_length === Column.max_length') 
+                    b.message [L = {{Column.min_length}}] &nbsp;                  
               tr(v-if='Column.unique_options && (Column.non_zero_unique_count <= maxEnum)')
                 td
                   b.coloured Unique Options
                 td
+                  span(v-if='Column.numeric')
+                    b.highlight (FK ?)
+                  span(v-else-if='Column.non_zero_unique_count <= maxEnum')
+                    b.highlight (FK or ENUM)
+                  span(v-else-if='(Column.non_zero_count > Column.non_zero_unique_count) && (Column.non_zero_unique_count < maxEnum)')
+                    b.highlight (FK or Enum)
+
                   ul(style='border: 1px solid black; background-color: lightgrey')
                     li(v-for='opt in Column.unique_options') {{opt}}
               tr
@@ -57,25 +64,10 @@
                 td 
                   h3.message Min Length: 
                 td
-                  b(v-bind:class='[{message : Column.numeric}, {highlight : !Column.numeric}]') {{Column.min_length}}
-              tr  
-                td 
-                  h3.message String ?:
-                td
-                  b(v-bind:class='[{message : Column.string}, {highlight : !Column.string}]') {{Column.string}}
+                  b.coloured {{Column.min_length}}
               tr
                 td 
-                  h3.message Int ?:
-                td
-                  b(v-bind:class='[{message : Column.numeric}, {highlight : !Column.numeric}]') {{Column.numeric}}
-              tr
-                td 
-                  h3.message Decimal ?:
-                td
-                  b(v-bind:class='[{message : Column.numeric}, {highlight : !Column.numeric}]') {{Column.decimal}}
-              tr
-                td 
-                  h3.message NULL values ?:
+                  h3.message NULL values found ?:
                 td
                   b(v-bind:class='[{message : Column.nullOk}, {highlight : !Column.nullOk}]') {{Column.nullOk}}
               tr
@@ -88,11 +80,26 @@
                   h3.message Unique Non-zero values:
                 td
                   b {{Column.non_zero_unique_count}}
-              tr
-                td 
-                  h3.message Date:
-                td
-                  b.coloured {{Column.date}}
+              //- tr  
+              //-   td 
+              //-     h3.message String ?:
+              //-   td
+              //-     b(v-bind:class='[{message : Column.string}, {highlight : !Column.string}]') {{Column.string}}
+              //- tr
+              //-   td 
+              //-     h3.message Int ?:
+              //-   td
+              //-     b(v-bind:class='[{message : Column.numeric}, {highlight : !Column.numeric}]') {{Column.numeric}}
+              //- tr
+              //-   td 
+              //-     h3.message Decimal ?:
+              //-   td
+              //-     b(v-bind:class='[{message : Column.numeric}, {highlight : !Column.numeric}]') {{Column.decimal}}
+              //- tr
+              //-   td 
+              //-     h3.message Date ?:
+              //-   td
+              //-     b.coloured {{Column.date}}
               //- tr
               //-   td
               //-   td
@@ -113,7 +120,7 @@
         headers: [],
         selected: [],
         Column: {},
-        maxEnum: 25,
+        maxEnum: 10,
       }
     },
     props: {

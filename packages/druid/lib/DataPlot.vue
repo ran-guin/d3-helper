@@ -2,43 +2,69 @@
   div
     v-container
       h2 Plot Data
-      h3.message {{xAxis}} vs {{yColumn}} ({{yAxis}})
+      h3(v-if='xAxis || yAxis')
+        span.message {{xAxis}} &nbsp;
+        span vs &nbsp;
+        span.message {{yAxis}}
+      h3
+        span.highlight(v-if='xAxis && ColumnData[xAxis]') {{ColumnData[xAxis].type}} &nbsp;
+        span(v-if='xAxis || yAxis') vs &nbsp;     
+        span.highlight(v-if='yAxis && ColumnData[yAxis]') {{ColumnData[yAxis].type}}
       hr
-      v-tabs(v-model='define')
-        v-tab(key='x' ripple) X-Axis
-        v-tab-item(key='x')
-          p &nbsp;
-          v-container(style='border: 1px solid black')
-            div
-              v-row.justify-space-around
-                v-col
-                  h3 Select X Axis
-                  v-radio-group(v-model='xAxis')
-                    v-radio(v-for='label in Summary.labels' :value='label.text' :label='label.text' @click='loadXAxis')
-        v-tab(key='Y' ripple) Y-Axis
-        v-tab-item(key='Y')
-          p &nbsp;
-          v-container(style='border: 1px solid black')
-              v-row.justify-space-around
-                v-col
-                  h3 Y Axis
-                  v-radio-group(v-model='yAxis')
-                    v-radio(v-for='label in Summary.labels' :value='label.text' :label='label.text' @click='loadYAxis')
-                v-col
-                  h3 Operator
-                  v-radio-group(v-model='yOperator')
-                    v-radio(v-for='type in yOperators' :label='type' :value='type' @click='loadYOperator')
-                v-col
-                  h3 Group (optional)
-                  v-radio-group(v-model='yColumn')
-                    v-radio(v-for='label in Summary.labels' :label='label.text' :value='label.text' @click='loadYGroup')
-                v-col
-                  p
-                    v-btn.btn-primary(@click='plotRecords("bar")') Plot Bar
-                  p
-                    v-btn.btn-primary(@click='plotRecords("pie")') Plot Pie
-                  p
-                    v-btn.btn-primary(@click='plotRecords("line")') Plot Scatter
+      v-row
+        v-col(cols='8')
+          v-tabs(v-model='define')
+            v-tab(key='x' ripple) X-Axis
+            v-tab-item(key='x')
+              p &nbsp;
+              v-container(style='border: 1px solid black')
+                div
+                  v-row.justify-space-around
+                    v-col
+                      h3 Select X Axis
+                      v-radio-group(v-model='xAxis')
+                        v-radio(v-for='label in Summary.labels' :value='label.text' :label='label.text' @click='loadXAxis')
+            v-tab(key='Y' ripple) Y-Axis
+            v-tab-item(key='Y')
+              p &nbsp;
+              v-row
+                v-col(cols='8')
+                  v-container(style='border: 1px solid black')
+                      v-row.justify-space-around
+                        v-col
+                          h3 Y Axis
+                          v-radio-group(v-model='yAxis')
+                            v-radio(v-for='label in Summary.labels' :value='label.text' :label='label.text' @click='loadYAxis')
+                        v-col
+                          h3 Operator
+                          v-radio-group(v-model='yOperator')
+                            v-radio(v-for='type in yOperators' :label='type' :value='type' @click='loadYOperator')
+                        v-col
+                          h3 Group (optional)
+                          v-radio-group(v-model='yColumn')
+                            v-radio(v-for='label in Summary.labels' :label='label.text' :value='label.text' @click='loadYGroup')
+        v-col(cols='4')
+          v-container
+            p &nbsp;
+            h2.coloured Plotting Options:
+            p &nbsp;
+            div(v-if='yAxis && ColumnData[xAxis] && ColumnData[yAxis]')
+              h4 {{ColumnData[yAxis].type }} vs {{ColumnData[yAxis].type}} options:
+
+              p
+                v-btn.btn-primary(@click='plotRecords("bar")' :disabled='!(ColumnData[yAxis].type === "number")') Plot Bar Chart
+                span &nbsp (yaxis = number)
+              p
+                v-btn.btn-primary(@click='plotRecords("bar", "horizontal")' :disabled='!(ColumnData[yAxis].type === "number")') Plot Horizontal Bar Chart
+                span &nbsp (yaxis = number)
+              p
+                v-btn.btn-primary(@click='plotRecords("pie")' :disabled='!(ColumnData[yAxis].type === "number")') Plot Pie
+                span &nbsp (yaxis = number)
+              p
+                v-btn.btn-primary(@click='plotRecords("line")' :disabled='!(ColumnData[xAxis].type === "number" && ColumnData[yAxis].type === "number")') Plot Scatter
+                span &nbsp (xaxis= number, yaxis = number)
+            div(v-else)
+              b Choose x & y axes to enable plotting options...
       p &nbsp;
       v-container(style='border: 1px solid black')
         h3 Canvas
@@ -115,7 +141,7 @@
           d3Svg.addRectangle({})  
         } else if (type === 'bar') {
           console.log('generate bar chart')
-          d3Bar.addBars({svg: svg, data: dataset, x: x, y: yaxis})
+          d3Bar.addBars({svg: svg, data: dataset, xaxis: x, yaxis: yaxis})
         } else if (type === 'pie') {
           console.log('generate pie chart')
           d3Pie.addPie({svg: svg, data: dataset, x: xaxis, y: yaxis})
@@ -123,7 +149,7 @@
           console.log(type + ' plot not set up...')
         }
       },
-      async plotRecords (type) {
+      async plotRecords (type, subtype) {
         console.log('Plot ')
         var svg = d3Svg.initSvg({clear: true, canvasHeight: 600, canvasWidth: 900})
 
@@ -136,10 +162,18 @@
           var yaxis = (this.xAxis === this.yAxis) ? this.yOperator : this.yOperator + ' ' + this.yAxis
           
           if (type === 'bar') {
-            console.log('generate bar chart..')
-            d3Bar.addBars({svg: svg, data: dataset, x: xaxis, y: yaxis})
+            console.log('generate bar chart for ' + xaxis + ' vs ' + yaxis)
+            var input = {
+              svg: svg,
+              data: dataset,
+              xaxis: xaxis,
+              yaxis: yaxis,
+              orientation: subtype
+            }
+            console.log('send: ' + JSON.stringify(input))
+            d3Bar.addBars(input)
           } else if (type === 'pie') {
-            d3Pie.addPie({svg: svg, data: dataset, x: xaxis, y: yaxis})
+            d3Pie.addPie({svg: svg, data: dataset, xaxis: xaxis, yaxis: yaxis})
           } else {
             console.log(type + ' plotting not yet set up... ')
           }
@@ -152,10 +186,13 @@
     },
     computed: {
       Hashes: function () {
-        return this.$store.state.hash.hashes
+        return this.$store.state.hash.hashes || []
       },
       Summary: function () {
-        return this.$store.state.hash.summary
+        return this.$store.state.hash.summary || {}
+      },
+      ColumnData: function () {
+        return this.$store.state.hash.columnData || {}
       }
 
     }
