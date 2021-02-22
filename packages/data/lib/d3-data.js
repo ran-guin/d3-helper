@@ -88,14 +88,14 @@ function loadDataSet (hashes, xAxis, yAxis, operator, group) {
   console.log('sorted list of xAxis values: ' + sorted.join(','))
   console.log('dataset lists: ' + JSON.stringify(List))
 
-  var x
+  var x = xAxis
   var y
   if (xAxis === yAxis) {
-    x = xAxis
     y = operator
-  } else {
-    x = xAxis
+  } else if (operator) {
     y = operator + ' ' + yAxis
+  } else {
+    y = yAxis
   }
 
   var dataset = sorted.map( (key) => {

@@ -61,7 +61,10 @@
                 v-btn.btn-primary(@click='plotRecords("pie")' :disabled='!(ColumnData[yAxis].type === "number")') Plot Pie
                 span &nbsp (yaxis = number)
               p
-                v-btn.btn-primary(@click='plotRecords("line")' :disabled='!(ColumnData[xAxis].type === "number" && ColumnData[yAxis].type === "number")') Plot Scatter
+                v-btn.btn-primary(@click='plotRecords("scatter")' :disabled='!(ColumnData[xAxis].type === "number" && ColumnData[yAxis].type === "number")') Plot Scatter
+                span &nbsp (xaxis= number, yaxis = number)
+              p
+                v-btn.btn-primary(@click='plotRecords("line")' :disabled='!(ColumnData[xAxis].type === "number" && ColumnData[yAxis].type === "number")') Plot Line
                 span &nbsp (xaxis= number, yaxis = number)
             div(v-else)
               b Choose x & y axes to enable plotting options...
@@ -78,6 +81,7 @@
   import d3Data from './../../data/lib/d3-data.js'
   import d3Bar from './../../bar/lib/d3-bar.js'
   import d3Pie from './../../pie/lib/d3-pie.js'
+  import d3Scatter from './../../scatter/lib/d3-scatter.js'
 
   import Demo from './demo'
 
@@ -145,6 +149,9 @@
         } else if (type === 'pie') {
           console.log('generate pie chart')
           d3Pie.addPie({svg: svg, data: dataset, x: xaxis, y: yaxis})
+        } else if (type === 'scatter') {
+          console.log('generate scatter chart')
+          d3Pie.addPie({svg: svg, data: dataset, x: xaxis, y: yaxis})
         } else {
           console.log(type + ' plot not set up...')
         }
@@ -174,6 +181,8 @@
             d3Bar.addBars(input)
           } else if (type === 'pie') {
             d3Pie.addPie({svg: svg, data: dataset, xaxis: xaxis, yaxis: yaxis})
+          } else if (type === 'scatter') {
+            d3Scatter.addScatter({svg: svg, data: dataset, xaxis: xaxis, yaxis: yaxis})
           } else {
             console.log(type + ' plotting not yet set up... ')
           }

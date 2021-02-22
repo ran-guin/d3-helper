@@ -26,6 +26,10 @@
           p
             v-btn.btn-primary(@click='testPlot("vertical bar chart")') Vertical Bar Graph
           p
+            v-btn.btn-primary(@click='testPlot("scatter")') Scatter
+          p
+            v-btn.btn-primary(@click='testPlot("line")') Line
+          p
             v-btn.btn-primary(@click='testPlot("bar")') Test Plot
           p
             v-btn.btn-primary(@click='data = []') Clear Data
@@ -40,7 +44,9 @@
   import d3Svg from './../../svg/lib/d3-svg.js'
   import d3Bar from './../../bar/lib/d3-bar.js'
   import d3Pie from './../../pie/lib/d3-pie.js'
-  // import d3Data from './../../data/lib/d3-data.js'
+  import d3Scatter from './../../scatter/lib/d3-scatter.js'
+
+  import d3Data from './../../data/lib/d3-data.js'
   import d3Parse from './../../data/lib/d3-parse-data.js'
 
   export default {
@@ -117,7 +123,7 @@
           console.log('simulate json data...')
           var raw = [
             {continent: "Asia", country: "Korea", gdp: 55, population: 50},
-            {continent: "Asia", country: "China", gdp: 127, population: 1400},
+            // {continent: "Asia", country: "China", gdp: 127, population: 1400},
             {continent: "Asia", country: "Singapore", gdp: 77, population: 12},
             {continent: "N America", country: "USA", gdp: 111, population: 340},
             {continent: "N America", country: "Canada", gdp: 45, population: 32},
@@ -164,8 +170,8 @@
           console.log(type + ' data not defined...')
         }
 
-        // var reformatted = d3Data.formatData(this.data, this.headers)
-        // this.reformatted = reformatted.data
+        var reformatted = d3Data.formatData(this.data, this.headers)
+        this.reformatted = reformatted.data
         // this.headers = reformatted.headers
         // console.log("ORIGINAL: " + JSON.stringify(this.data))
         // console.log("EXPECTED: " + JSON.stringify(this.formatted))
@@ -234,11 +240,48 @@
             scale: this.scale
           })
 
-          console.log('generated bar chart: ' + JSON.stringify(size))
+          console.log('generated horizontal bar chart: ' + JSON.stringify(size))
 
           // d3Helper.resize({id: '#d3Canvas', width: size.maxWidth, height: size.fullHeight})
           d3Svg.resize({id: '#d3Canvas', width: size.fullWidth, height: size.fullHeight})
+        } else if (type === 'scatter') {
+          console.log('generate scatter plot for ' + JSON.stringify(this.reformatted))
+
+          // const size = d3Helper.addBars({
+          const size = d3Scatter.addScatter({
+            svg: svg,
+            data: this.reformatted,
+            headers: this.headers,
+            xaxis: 'custom x axis label',
+            yaxis: 'custom y axis label',
+          })
+
+          console.log('generated scatter chart: ' + JSON.stringify(size))
+
+          // d3Helper.resize({id: '#d3Canvas', width: size.maxWidth, height: size.fullHeight})
+          d3Svg.resize({id: '#d3Canvas', width: size.fullWidth, height: size.fullHeight})
+        // } else if (type === 'line chart') {
+        //   console.log('generate line chart')
+
+        //   // const size = d3Helper.addBars({
+        //   const size = d3Bar.addBars({
+        //     svg: svg,
+        //     data: this.reformatted,
+        //     headers: this.headers,
+        //     xaxis: 'custom x axis label',
+        //     yaxis: 'custom y axis label',
+        //     xoffset: 20,
+        //     spacing: Number(this.spacing),
+        //     thickness: Number(this.thickness),
+        //     scale: this.scale
+        //   })
+
+        //   console.log('generated bar chart: ' + JSON.stringify(size))
+
+        //   // d3Helper.resize({id: '#d3Canvas', width: size.maxWidth, height: size.fullHeight})
+        //   d3Svg.resize({id: '#d3Canvas', width: size.fullWidth, height: size.fullHeight})
         }
+
       }
     },
     watch: {

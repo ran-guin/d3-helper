@@ -41,6 +41,16 @@ const defaults = {
     fontSize: 20,
     spacing: 20
   },
+  scatter: {
+    labelPosition: 'legend',
+    stroke: 'black',
+    fontSize: 20,
+    topMargin: 50,   // should be at least >= fontSize + labelSpacing
+    bottomMargin: 50,
+    leftMargin: 50,
+    rightMargin: 10,
+    padding: 15
+  },
   text: {
     fontSize: 20
   }
@@ -130,6 +140,8 @@ function setOptions (type, options) {
       
       Options.dataHeight = Options.height - Options.topMargin - Options.bottomMargin
       Options.dataWidth = Options.width - Options.leftMargin - Options.rightMargin 
+      console.log("extract svg attributes... for height & width")
+      console.log('eg height: ' + Options.height + ' - ' + Options.topMargin + ' - ' + Options.bottomMargin)
     }
 
     if (!options.valueCol || !options.labelCol) {
@@ -162,7 +174,7 @@ function setOptions (type, options) {
     var max = 0
     console.log(JSON.stringify(options.data))
     options.data.map((a) => {
-      var val = a[Options.valueCol]
+      var val = parseInt(a[Options.valueCol])
       if (val > max) { max = val }
     })
     Options.maxValue = max
@@ -198,7 +210,30 @@ function setOptions (type, options) {
       Options.thickness = ((crossSpan - 2*Options.spacing) / Options.records) - Options.spacing
       console.log('auto set bar thickness to ' + Options.thickness + ' (based on ' + Options.records + ' records (spaced at ' + Options.spacing + ') spanning an effective canvas base of ' + crossSpan )
     }
+  } else if (type === 'scatter') {
+    Options.xCol = Options.labelCol
+    Options.yCol = Options.valueCol
+
+    var maxX = 0
+    console.log(JSON.stringify(options.data))
+    options.data.map((a) => {
+      var val = parseInt(a[Options.xCol])
+
+      if (val > maxX) {
+        maxX = val
+      }
+    })
+    Options.maxX = maxX
+    Options.maxY = max
+
+    console.log('set scale height to max:' + Options.dataHeight + ' / ' + Options.maxY)
+    console.log('set scale width to max:' + Options.dataWidth + ' / ' + Options.maxX)
+    Options.scaleX = Options.dataWidth / Options.maxX
+    Options.scaleY = Options.dataHeight / Options.maxY
+
   }
+
+
 
   console.log(type + ' output OPTIONS: ' + JSON.stringify(Options))
   return Options

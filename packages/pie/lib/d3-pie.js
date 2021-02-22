@@ -43,22 +43,21 @@ function addPie(options) {
             d3.select(this)
               .transition()
               .duration(200)
-              .attr("opacity", 0.5)
-            canvas.select('#Legend' + d[set.labelCol]) // NOT WORKING (?)
+              .attr("opacity", 0.5);
+            d3.select('#Legend' + d[set.labelCol]) // NOT WORKING (?)
               .transition()
               .duration(200)
-              .attr("opacity", 0.5)
-            })
+              .attr("opacity", 0.5);
+          })
           .on("mouseout", function(d) {
             d3.select(this)
               .transition()
               .duration(200)
-              .attr("opacity", 1)
-            canvas.select('#Legend' + d[set.labelCol]) // NOT WORKING (?)
+              .attr("opacity", 1);
+            d3.select('#Legend' + d[set.labelCol]) // NOT WORKING (?)
               .transition()
               .duration(200)
-              .attr("opacity", 1)
-  
+              .attr("opacity", 1);
           });
     
   options.radius = radius

@@ -93,6 +93,8 @@ function addBars (options) {
         .transition()
         .duration(200)
         .attr("opacity", 0.5);
+      d3.select('#xAxis')        // Testing .. not accessing this element (?)
+        .style('color', 'red');
     })
     .on("mouseout", function() {
       d3.select(this)
@@ -149,12 +151,14 @@ function addAxis (options) {
   var set = d3Svg.setOptions('bar', options)  // uses bar options for spacing 
  
   svg.append('text')
+    .attr('id', 'xAxis')
     .attr('x', set.dataWidth/2)
     .attr('y', set.height - set.fontSize)
     .text(options.xaxis)
     .style('font-weight', 'bold')
 
   svg.append('text')
+    .attr('id', 'yAxis')
     .attr('y', set.fontSize)
     .attr('x', - set.height/2)
     .attr("transform", "rotate(-90)")
