@@ -1,6 +1,6 @@
 {
   "name": "c3-helper",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "bar plotting helper using c3",
   "main": "index.js",
   "scripts": {
@@ -12,5 +12,5 @@
     "c3": "^0.7.20",
     "d3": "^6.5.0"
   },
-  "gitHead": "c7469a291a79cb0735d45ebc874b59865a5d51f0"
+  "gitHead": "903a5be71a5ba1f230c4bece545b9c1ca6567652"
 }
