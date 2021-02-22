@@ -123,7 +123,7 @@
           console.log('simulate json data...')
           var raw = [
             {continent: "Asia", country: "Korea", gdp: 55, population: 50},
-            // {continent: "Asia", country: "China", gdp: 127, population: 1400},
+            {continent: "Asia", country: "China", gdp: 127, population: 1400},
             {continent: "Asia", country: "Singapore", gdp: 77, population: 12},
             {continent: "N America", country: "USA", gdp: 111, population: 340},
             {continent: "N America", country: "Canada", gdp: 45, population: 32},

@@ -173,7 +173,7 @@ function addBars (options) {
   options.records = records
   options.max = max
 
-  this.addText(options)
+  this.addText(options)``
   this.addAxis(options)
   
   return {records: records, max: max, maxHeight: maxHeight, maxWidth: maxWidth }

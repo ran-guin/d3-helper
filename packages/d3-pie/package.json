@@ -1,6 +1,6 @@
 {
-  "name": "pie",
-  "version": "0.0.2",
+  "name": "d3-pie",
+  "version": "0.0.3",
   "description": "pie chart plotting helper using d3",
   "main": "index.js",
   "scripts": {
@@ -16,5 +16,5 @@
   "dependencies": {
     "d3": "^6.5.0"
   },
-  "gitHead": "cb4ecf1cfe507438da92447f1c0d578c596da2fb"
+  "gitHead": "c7469a291a79cb0735d45ebc874b59865a5d51f0"
 }

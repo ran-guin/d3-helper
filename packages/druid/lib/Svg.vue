@@ -113,12 +113,6 @@ export default {
       var set = this.setOptions('bar', options)
 
       var color = d3.scaleOrdinal(d3.schemeDark2)
-      // var xoffset = options.xoffset || 50
-      // var yoffset = options.yoffset || 20
-      // var thickness = options.thickness || 30
-      // var spacing = options.spacing || 2
-
-      // var yrepeat = set.thickness + set.spacing
 
       var bars = svg.selectAll(".myBars")
         .data(options.data)
@@ -133,14 +127,6 @@ export default {
         .attr("fill", (d, i) => color(i))
 
       this.addText(options)
-      // var texts = svg.selectAll(".myTexts")
-      //     .data(options.data)
-      //     .enter()
-      //     .append("text");
-
-      // texts.attr("x", function(d) { return d + xoffset + labelSpacing})
-      //     .attr("y", function(d,i) { return yoffset + i*yrepeat + thickness/2})
-      //     .text(function(d) { return d });
     },
 
     addText: function (options) {
@@ -149,14 +135,6 @@ export default {
 
       var color = d3.scaleOrdinal(d3.schemeDark2)
       var set = this.setOptions('bar', options)
-
-      // var xoffset = options.xoffset || 50
-      // var yoffset = options.yoffset || 20
-      // var thickness = options.thickness || 30
-      // var spacing = options.spacing || 2
-      // var labelSpacing = options.labelSpacing || 10 // gap between end of bar and text label
-
-      // var yrepeat = set.thickness + set.spacing
 
       var texts = svg.selectAll(".myTexts")
           .data(options.data)
