@@ -13,5 +13,8 @@
     "visualization"
   ],
   "author": "Ran Guin",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "d3": "^6.5.0"
+  }
 }
