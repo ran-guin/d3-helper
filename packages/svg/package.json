@@ -1,6 +1,6 @@
 {
   "name": "svg",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "initialize svg object for use with d3 plotting",
   "main": "index.js",
   "scripts": {

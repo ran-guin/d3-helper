@@ -1,6 +1,6 @@
 {
   "name": "c3-helper",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "bar plotting helper using c3",
   "main": "index.js",
   "scripts": {
