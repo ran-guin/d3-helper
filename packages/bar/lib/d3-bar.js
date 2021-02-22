@@ -56,37 +56,9 @@ function addBars (options) {
   console.log('add bars: ' + JSON.stringify(options))
   var svg = options.svg || this.initSvg(options)
   var data = options.data       // eg [{fname: 'Peter', state: 'BC', age: 41}, {fname: 'Paul', state: 'Alberta', age: 33}, {fname: 'Mary', state: 'Ontario', age: 27}]
-  var scale = options.scale || 1
 
   const set = d3Svg.setOptions('bar', options)
   console.log('default settings: ' + JSON.stringify(set))
-
-  var dataHeight = set.height - set.topMargin - set.bottomMargin
-  var dataWidth = set.width - set.leftMargin - set.rightMargin 
-  var xPadding = 0
-  var yPadding = 0
-  var span
-  var crossSpan
-  if (set.orientation === 'horizontal') {
-    xPadding = set.maxValue.toString().length * set.fontSize / 2
-    span = dataWidth + xPadding
-    crossSpan = dataHeight
-    console.log('set span as ' + set.width + ' - ' + set.leftMargin + ' - ' + set.rightMargin + ' - ' + xPadding)
-  } else {
-    yPadding = set.fontSize
-    span = dataHeight + yPadding
-    crossSpan = dataWidth
-    console.log('set span as ' + set.height + ' - ' + set.topMargin + ' - ' + set.bottomMargin + ' - ' + yPadding)
-  }
-  
-  if (!options.scale) {
-    scale = span / set.maxValue
-    console.log('auto set scale to ' + scale + ' (based on max value of ' + set.maxValue + ' and an effective canvas size of ' + span)
-  }
-  if (!options.thickness) {
-    set.thickness = ((crossSpan - 2*set.spacing) / set.records) - set.spacing
-    console.log('auto set bar thickness to ' + set.thickness + ' (based on ' + set.records + ' records (spaced at ' + set.spacing + ') spanning an effective canvas base of ' + crossSpan )
-  }
 
   var bars = svg.selectAll(".myBars")
     .data(data)
@@ -102,16 +74,16 @@ function addBars (options) {
     bars
       .attr('x', set.leftMargin)
       .attr('y', function(d,i) { return set.topMargin + i*(set.thickness + set.spacing) + set.spacing})
-      .attr('width', function(d) { return d[set.valueCol]*scale })
+      .attr('width', function(d) { return d[set.valueCol]*set.scale })
       .attr('height', set.thickness)
       .attr("fill", (d, i) => set.color(i))
   } else {
 
     bars
       .attr('x', function(d,i) { return set.leftMargin + i*(set.thickness + set.spacing) + set.spacing })
-      .attr('y', function(d) { return set.topMargin + dataHeight - d[set.valueCol]*scale })
+      .attr('y', function(d) { return set.topMargin + set.dataHeight - d[set.valueCol]*set.scale })
       .attr('width', set.thickness)
-      .attr('height', function(d) { return d[set.valueCol]*scale })
+      .attr('height', function(d) { return d[set.valueCol]*set.scale })
       .attr("fill", (d, i) => set.color(i))     
   }
 
@@ -129,11 +101,6 @@ function addBars (options) {
         .attr("opacity", 1);
     });
 
-
-  options.dataHeight = dataHeight
-  options.dataWidth = dataWidth
-  options.scale = scale
-  
   console.log('... add text for datapoints ...')
   this.addText(options)
 
@@ -141,18 +108,15 @@ function addBars (options) {
   this.addAxis(options)
   
   console.log('complete.')
-  return {records: set.records, max: set.maxValue, dataHeight: dataHeight, dataWidth: dataWidth, height: set.height, width: set.width }
+  return {records: set.records, max: set.maxValue, dataHeight: set.dataHeight, dataWidth: set.dataWidth, height: set.height, width: set.width }
 }
 
 function addText (options) {
   console.log('add text: ' + JSON.stringify(options))
   var svg = options.svg || this.initSvg(options)
   var data = options.data
-  var scale = options.scale
 
   var set = d3Svg.setOptions('bar', options)  // uses bar options for spacing 
-
-  var color = set.color
 
   console.log('add bar text for ' + data.length + ' records')
   var texts = svg.selectAll(".myTexts")
@@ -161,17 +125,19 @@ function addText (options) {
       .append("text");
 
   if (set.orientation === 'horizontal') {
-    texts.attr("x", function(d) { return d[set.valueCol]*scale + set.leftMargin + set.labelSpacing})
+    texts.attr("x", function(d) { return d[set.valueCol]*set.scale + set.leftMargin + set.labelSpacing})
       .attr("y", function(d,i) { return set.topMargin + i*(set.thickness + set.spacing) + set.thickness/2 + set.fontSize/2 + set.spacing})
       .attr("stroke", (d, i) => set.color(i))
       .text(function(d) { return d[set.labelCol] });
   } else {
     texts
-      .attr('x', function(d,i) { return set.leftMargin + set.spacing + i*(set.thickness + set.spacing) + set.thickness/2 - d[set.valueCol]*scale.toString().length*set.fontSize/4})
-      .attr('y', function(d) { return set.topMargin + options.dataHeight - d[set.valueCol]*scale - set.labelSpacing })
+      .attr('x', function(d,i) { return set.leftMargin + set.spacing + i*(set.thickness + set.spacing) + set.thickness/2 })
+      // .attr('x', function(d,i) { return set.leftMargin + set.spacing + i*(set.thickness + set.spacing) + set.thickness/2 - d[set.valueCol]*scale.toString().length*set.fontSize/4})
+      .attr('y', function(d) { return set.topMargin + set.dataHeight - d[set.valueCol]*set.scale - set.labelSpacing })
       .attr("stroke", (d, i) => set.color(i))
-      .text(function(d) { return d[set.labelCol] });
-  }
+      .text(function(d) { return d[set.labelCol] })
+      .style("text-anchor", "middle")
+    }
   console.log('added labels')
 }
 
@@ -183,9 +149,10 @@ function addAxis (options) {
   var set = d3Svg.setOptions('bar', options)  // uses bar options for spacing 
  
   svg.append('text')
-    .attr('x', options.dataWidth/2)
-    .attr('y', set.height)
+    .attr('x', set.dataWidth/2)
+    .attr('y', set.height - set.fontSize)
     .text(options.xaxis)
+    .style('font-weight', 'bold')
 
   svg.append('text')
     .attr('y', set.fontSize)
@@ -193,16 +160,17 @@ function addAxis (options) {
     .attr("transform", "rotate(-90)")
     .style("text-anchor", "middle")
     .text(options.yaxis)
+    .style('font-weight', 'bold')
 
   // var x = d3.scaleTime()  // dates ... 
 
   if (set.orientation === 'horizontal') {
     const x = d3.scaleLinear()
       .domain([0, d3.max(data, function(d) { return + d[set.valueCol] })])
-      .range([ set.leftMargin, set.leftMargin + options.maxValue ]);
+      .range([ set.leftMargin, set.leftMargin + set.maxValue*set.scale ]);
     svg.append("g")
       .call(d3.axisBottom(x))
-      .attr("transform", "translate(0," + (options.dataHeight + set.topMargin) + ")")
+      .attr("transform", "translate(0," + (set.dataHeight + set.topMargin) + ")")
   } else {
     const y = d3.scaleLinear()
       .domain([0, d3.max(data, function(d) { return + d[set.valueCol] })])

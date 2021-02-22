@@ -39,17 +39,26 @@ function addPie(options) {
           .attr("fill", (d, i) => color(i))
           .attr("stroke", set.stroke)
           .attr("stroke-ypos", "1px")
-          .on("mouseenter", function() {
+          .on("mouseenter", function(d) {
             d3.select(this)
               .transition()
               .duration(200)
-              .attr("opacity", 0.5);
-          })
-          .on("mouseout", function() {
+              .attr("opacity", 0.5)
+            canvas.select('#Legend' + d[set.labelCol]) // NOT WORKING (?)
+              .transition()
+              .duration(200)
+              .attr("opacity", 0.5)
+            })
+          .on("mouseout", function(d) {
             d3.select(this)
               .transition()
               .duration(200)
-              .attr("opacity", 1);
+              .attr("opacity", 1)
+            canvas.select('#Legend' + d[set.labelCol]) // NOT WORKING (?)
+              .transition()
+              .duration(200)
+              .attr("opacity", 1)
+  
           });
     
   options.radius = radius
@@ -123,6 +132,7 @@ function addLabels (options) {
       .data(data)
       .enter()
       .append("rect")
+        .attr('id', (d) => `${"Legend" + d[set.labelCol]}`)
         .attr('x', labelPos)
         .attr('y', (d,i) => `${labelPos + i*set.fontSize*2 - set.fontSize - set.fontSize/2}` )  // - 23
         .attr('height', set.fontSize)
@@ -170,17 +180,26 @@ function addLabels (options) {
         .attr("fill", (d, i) => set.color(i))
         .attr("stroke", set.stroke)
         .attr("stroke-ypos", "1px")
-        .on("mouseenter", function() {
-          d3.select(this)
+        .on("mouseenter", function(d) {
+          // d3.select(this)
+          //   .transition()
+          //   .duration(200)
+          //   .attr("opacity", 0.5)
+          d3.select('#Legend' + d[set.labelCol])
+            .selectAll('rect')
             .transition()
             .duration(200)
-            .attr("opacity", 0.5);
+            .attr("opacity", 0.5)
         })
-        .on("mouseout", function() {
+        .on("mouseout", function(d) {
           d3.select(this)
             .transition()
             .duration(200)
             .attr("opacity", 1);
+          d3.select('#Legend' + d[set.labelCol])
+            .transition()
+            .duration(200)
+            .attr("opacity", 1)
         });
     
     // g.selectAll("text")

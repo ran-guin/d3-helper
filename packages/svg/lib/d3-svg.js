@@ -21,7 +21,7 @@ const defaults = {
     labelSpacing: 5,
     fontSize: 14,
 
-    topMargin: 25,   // should be at least >= fontSize + labelSpacing
+    topMargin: 50,   // should be at least >= fontSize + labelSpacing
     bottomMargin: 50,
     leftMargin: 50,
     rightMargin: 10,
@@ -100,12 +100,21 @@ function setOptions (type, options) {
     console.debug(type + 'defaults not defined')
     Options = options
   }
-  console.log(type + ' standard options: ' + JSON.stringify(Options))
+  console.log(type + ' input options: ' + JSON.stringify(options))
+  
+  var inputKeys = Object.keys(options)
+  for (var ki = 0; ki < inputKeys.length; ki++) {
+    if (inputKeys[ki] !== 'data' && inputKeys[ki] !== "svg") {
+      if (!Options[inputKeys[ki]]) {
+        Options[inputKeys[ki]] = options[inputKeys[ki]]
+        console.log(inputKeys[ki] + ' custom option added: ' + JSON.stringify(options[inputKeys[ki]]))
+      }
+    }
+  }
 
   // Add additional options for plots:
-
   if (options.data) {
-    if (!Options.headers) {
+    if (!options.headers) {
       Options.headers = Object.keys(options.data[0]).map(a => {
         return { text: a, value: a }
       })
@@ -118,9 +127,12 @@ function setOptions (type, options) {
       if (!options.height) {
         Options.height = options.svg.attr("height")
       }
+      
+      Options.dataHeight = Options.height - Options.topMargin - Options.bottomMargin
+      Options.dataWidth = Options.width - Options.leftMargin - Options.rightMargin 
     }
 
-    if (!Options.xaxis || !Options.yaxis) {
+    if (!options.valueCol || !options.labelCol) {
       console.log("Confirm key index for value column...")
       var valueCol
       var labelCol
@@ -139,28 +151,56 @@ function setOptions (type, options) {
         }
       }
 
-      Options.valueCol = valueCol
-      Options.labelCol = labelCol
+      if (!options.valueCol) { Options.valueCol = valueCol }
+      if (!options.labelCol) { Options.labelCol = labelCol }
     }
 
-    if (!Options.color) {
+    if (!options.color) {
       Options.color = d3.scaleOrdinal(d3.schemeDark2)
     }
 
     var max = 0
     console.log(JSON.stringify(options.data))
     options.data.map((a) => {
-      console.log('R: ' + JSON.stringify(a))
       var val = a[Options.valueCol]
       if (val > max) { max = val }
-      console.log('test ' + val + ' vs ' + max)
     })
     Options.maxValue = max
-    console.log('retrieved max ' + Options.valueCol + ' value: ' + max)
-
     Options.records = options.data.length
   }
-  console.log(type + ' OPTIONS: ' + JSON.stringify(Options))
+
+
+  if (type === 'bar') {
+    var xPadding = 0
+    var yPadding = 0
+    var span
+    var crossSpan
+    if (Options.orientation === 'horizontal') {
+      xPadding = Options.maxValue.toString().length * Options.fontSize / 2
+      span = Options.dataWidth + xPadding
+      crossSpan = Options.dataHeight
+      console.log('set span as ' + Options.width + ' - ' + Options.leftMargin + ' - ' + Options.rightMargin + ' - ' + xPadding)
+    } else {
+      yPadding = Options.fontSize
+      span = Options.dataHeight + yPadding
+      crossSpan = Options.dataWidth
+      console.log('set span as ' + Options.height + ' - ' + Options.topMargin + ' - ' + Options.bottomMargin + ' - ' + yPadding)
+    }
+    Options.span = span
+    Options.crossSpan = crossSpan
+    
+    if (!options.scale) {
+      // default if not manually specified (Note: options is input.. Options includes defaults)
+      Options.scale = Options.span / Options.maxValue
+      console.log('auto set scale to ' + Options.scale + ' (based on max value of ' + Options.maxValue + ' and an effective canvas size of ' + span)
+    }
+    if (!options.thickness) {
+      Options.thickness = ((crossSpan - 2*Options.spacing) / Options.records) - Options.spacing
+      console.log('auto set bar thickness to ' + Options.thickness + ' (based on ' + Options.records + ' records (spaced at ' + Options.spacing + ') spanning an effective canvas base of ' + crossSpan )
+    }
+  }
+
+  console.log(type + ' output OPTIONS: ' + JSON.stringify(Options))
   return Options
 }
 
@@ -174,7 +214,7 @@ function addCircle (options) {
           .attr('cx', set.x)
           .attr('cy', set.y)
           .attr('r', set.radius)
-          .attr('fill', set.colour || 'green');
+          .attr('fill', set.color || 'green');
 }
 
 function addRectangle(options) {
@@ -188,7 +228,7 @@ function addRectangle(options) {
           .attr('y', set.y)
           .attr('height', set.radius)
           .attr('width', set.radius)
-          .attr('fill', set.colour || 'green');
+          .attr('fill', set.color || 'green');
 }
 
 export default { initSvg, resize, setOptions, addCircle, addRectangle};

@@ -634,6 +634,7 @@ function parseColumnData (data) {
     var numeric = true
     var decimal = true
     var date = true
+    var time = true
     var nullOk = true
     var string = true
     
@@ -653,20 +654,25 @@ function parseColumnData (data) {
         if (val.constructor === Number) {
           nullOk = false
           date = false
-        } else if (val.constructor === String && val && !val.match(/^\d+$/) ) {
+          string = false
+        } else if (val.constructor === String && val && ! val.match(/^\d+$/) ) {
           numeric = false
-        } else if (val.constructor === String && ! val && val.match(/^\d+\.\d+$/) ) {
+          decimal = false
+        } else if (val.constructor === String && val && ! val.match(/^\d+\.\d+$/) ) {
           decimal = false
         } 
         
         if (val.constructor === String && ! val.match(/^\w$/) ) {
           nullOk = false
-        } else if (val.constructor === String && val && !val.match(/[a-zA-Z]/)) {
+        } else if (val.constructor === String && val && ! val.match(/[a-zA-Z]/)) {
           string = false
         }
 
         if (date && val.constructor === String && val && !val.match(/^\d\d\d\d-\d\d-\d\d/) ) {
           date = false
+          time = false
+        } else if (date && val.constructor === String && val && !val.match(/^\d\d\d\d-\d\d-\d\d \d\d:\d\d/) ) {
+          time = false
         }
       }
       return val
@@ -676,7 +682,7 @@ function parseColumnData (data) {
     var non_zero_options = values.filter( a => { if (a) { return true } })
     var non_zero_unique_options = unique_options.filter( a => { if (a) { return true } })
 
-    console.log('set column..' + (index + 1) + ' from ' + JSON.stringify(data.summary.labels))
+    console.log(type + ' Column identified' + (index + 1) + ' from ' + JSON.stringify(data.summary.labels))
 
     var enums = ((unique_options.length < values.length) && (unique_options.length < enumLimit)) ? unique_options.join(', ') : false
 
@@ -693,6 +699,7 @@ function parseColumnData (data) {
       numeric: numeric,
       decimal: decimal,
       date: date,
+      time: time,
       nullOk: nullOk,
       string: string,
 
@@ -710,7 +717,7 @@ function parseColumnData (data) {
     }
 
     ColumnData[c] = Column
-    console.log('Column Data: ' + JSON.stringify(Column))
+    console.log(c + ' Column Data generated: ' + JSON.stringify(Column))
   })
   data.columnData = ColumnData
   return Promise.resolve(data)
