@@ -1,15 +1,19 @@
 {
-  "name": "c3-helper",
+  "name": "d3-pie-helper",
   "version": "0.0.6",
-  "description": "bar plotting helper using c3",
+  "description": "pie chart plotting helper using d3",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "test-pie.js"
   },
+  "keywords": [
+    "pie",
+    "chart",
+    "d3"
+  ],
   "author": "Ran Guin",
   "license": "ISC",
   "dependencies": {
-    "c3": "^0.7.20",
     "d3": "^6.5.0"
   },
   "gitHead": "2307d293c335453581bfa3704109cec224c75757"

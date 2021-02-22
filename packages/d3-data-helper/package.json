@@ -1,0 +1,26 @@
+{
+  "name": "d3-data-helper",
+  "version": "0.0.6",
+  "description": "data parsing in prep for d3 visualization",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "data.test.js"
+  },
+  "keywords": [
+    "data",
+    "upload",
+    "parse",
+    "filter",
+    "aggregate"
+  ],
+  "author": "Ran Guin",
+  "license": "ISC",
+  "dependencies": {
+    "d3": "^6.5.0",
+    "read-excel-file": "^5.0.0"
+  },
+  "gitHead": "2307d293c335453581bfa3704109cec224c75757"
+}

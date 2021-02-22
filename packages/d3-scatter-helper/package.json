@@ -1,15 +1,20 @@
 {
-  "name": "c3-helper",
+  "name": "d3-scatter-helper",
   "version": "0.0.6",
-  "description": "bar plotting helper using c3",
+  "description": "scatter plot d3 visualization",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "scatter.test.js"
   },
+  "keywords": [
+    "scatter",
+    "plot",
+    "d3",
+    "visualization"
+  ],
   "author": "Ran Guin",
   "license": "ISC",
   "dependencies": {
-    "c3": "^0.7.20",
     "d3": "^6.5.0"
   },
   "gitHead": "2307d293c335453581bfa3704109cec224c75757"
