@@ -19,6 +19,8 @@
   "author": "Ran Guin",
   "license": "ISC",
   "dependencies": {
-    "d3": "^6.5.0"
-  }
+    "d3": "^6.5.0",
+    "read-excel-file": "^5.0.0"
+  },
+  "gitHead": "cb4ecf1cfe507438da92447f1c0d578c596da2fb"
 }

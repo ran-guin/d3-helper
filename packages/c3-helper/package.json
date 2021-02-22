@@ -11,5 +11,6 @@
   "dependencies": {
     "c3": "^0.7.20",
     "d3": "^6.5.0"
-  }
+  },
+  "gitHead": "cb4ecf1cfe507438da92447f1c0d578c596da2fb"
 }
