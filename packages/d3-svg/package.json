@@ -1,6 +1,6 @@
 {
   "name": "d3-svg",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "initialize svg object for use with d3 plotting",
   "main": "index.js",
   "scripts": {
@@ -11,5 +11,5 @@
   "dependencies": {
     "d3": "^6.5.0"
   },
-  "gitHead": "903a5be71a5ba1f230c4bece545b9c1ca6567652"
+  "gitHead": "59054babc523d8e69f7ac64a2832e4b1d9f443f4"
 }
