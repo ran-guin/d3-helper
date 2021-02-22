@@ -1,0 +1,21 @@
+{
+  "name": "data",
+  "version": "1.0.0",
+  "description": "data parsing in prep for d3 visualization",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "data.test.js"
+  },
+  "keywords": [
+    "data",
+    "upload",
+    "parse",
+    "filter",
+    "aggregate"
+  ],
+  "author": "Ran Guin",
+  "license": "ISC"
+}

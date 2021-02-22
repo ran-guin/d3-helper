@@ -1,0 +1,16 @@
+{
+  "name": "pie",
+  "version": "1.0.0",
+  "description": "pie chart plotting helper using d3",
+  "main": "index.js",
+  "scripts": {
+    "test": "test-pie.js"
+  },
+  "keywords": [
+    "pie",
+    "chart",
+    "d3"
+  ],
+  "author": "Ran Guin",
+  "license": "ISC"
+}

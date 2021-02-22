@@ -1,0 +1,16 @@
+{
+  "name": "line",
+  "version": "1.0.0",
+  "description": "line plotting for d3 visualization",
+  "main": "line.js",
+  "scripts": {
+    "test": "line.test.js"
+  },
+  "keywords": [
+    "line",
+    "plot",
+    "d3"
+  ],
+  "author": "Ran Guin",
+  "license": "ISC"
+}

@@ -1,0 +1,163 @@
+<template lang='pug'>
+  div
+    v-container
+      h2 Plot Data
+      h3.message {{xAxis}} vs {{yColumn}} ({{yAxis}})
+      hr
+      v-tabs(v-model='define')
+        v-tab(key='x' ripple) X-Axis
+        v-tab-item(key='x')
+          p &nbsp;
+          v-container(style='border: 1px solid black')
+            div
+              v-row.justify-space-around
+                v-col
+                  h3 Select X Axis
+                  v-radio-group(v-model='xAxis')
+                    v-radio(v-for='label in Summary.labels' :value='label.text' :label='label.text' @click='loadXAxis')
+        v-tab(key='Y' ripple) Y-Axis
+        v-tab-item(key='Y')
+          p &nbsp;
+          v-container(style='border: 1px solid black')
+              v-row.justify-space-around
+                v-col
+                  h3 Y Axis
+                  v-radio-group(v-model='yAxis')
+                    v-radio(v-for='label in Summary.labels' :value='label.text' :label='label.text' @click='loadYAxis')
+                v-col
+                  h3 Operator
+                  v-radio-group(v-model='yOperator')
+                    v-radio(v-for='type in yOperators' :label='type' :value='type' @click='loadYOperator')
+                v-col
+                  h3 Group (optional)
+                  v-radio-group(v-model='yColumn')
+                    v-radio(v-for='label in Summary.labels' :label='label.text' :value='label.text' @click='loadYGroup')
+                v-col
+                  p
+                    v-btn.btn-primary(@click='plotRecords("bar")') Plot Bar
+                  p
+                    v-btn.btn-primary(@click='plotRecords("pie")') Plot Pie
+                  p
+                    v-btn.btn-primary(@click='plotRecords("line")') Plot Scatter
+      p &nbsp;
+      v-container(style='border: 1px solid black')
+        h3 Canvas
+        div#d3Canvas.canvas   
+
+</template>
+
+<script>
+  // import D3Loader from './D3Loader'
+  import d3Svg from './../../svg/lib/d3-svg.js'
+  import d3Data from './../../data/lib/d3-data.js'
+  import d3Bar from './../../bar/lib/d3-bar.js'
+  import d3Pie from './../../pie/lib/d3-pie.js'
+
+  import Demo from './demo'
+
+  export default {
+    name: 'DataPlot',
+    // mixins: [
+    //   D3Loader,
+    //   d3Svg
+    // ],
+    data () {
+      return {
+        headers: [],
+        selected: [],
+        choose: null,
+        define: '',
+        xAxis: '',
+        yAxis: '',
+        yOperator: '',
+        yColumn: '',
+        yOperators: ['Count', 'Sum', 'Avg']
+      }
+    },
+    props: {
+    },
+    created () {
+      console.log('load Plotting Page')
+    },
+    methods: {
+      loadXAxis: function () {
+        console.log('set X Axis to ' + this.xAxis)
+        this.define++
+      },
+      loadYAxis: function () {
+        console.log('set Y Axis to ' + this.yAxis)
+      },
+      loadYOperator: function () {
+        console.log('group Y column by: ' + this.yOperator)
+      },
+      loadYGroup: function () {
+        console.log('group Y column by: ' + this.yGroup)
+      },
+      async testPlot (type) {
+        var data = Demo.gdp
+        var x = data.xAxis
+        var y = data.yAxis
+
+        console.debug('*** Plot: ' + JSON.stringify(data))
+        var dataset = await d3Data.loadDataSet(data.dataset, x, y, this.yOperator, this.yGroup)
+
+        console.log('*** Filtered to: ' + JSON.stringify(dataset))
+
+        var xaxis = x
+        var yaxis = (x === y) ? this.yOperator : this.yOperator + ' ' + y
+
+        var svg = d3Svg()
+        if (type === 'circle') {
+          console.log('generate circle')
+          d3Svg.addCircle({ x: 60, y: 60, radius: 50})
+        } else if (type === 'rectangle') {
+          console.log('generate circle')
+          d3Svg.addRectangle({})  
+        } else if (type === 'bar') {
+          console.log('generate bar chart')
+          d3Bar.addBars({svg: svg, data: dataset, x: x, y: yaxis})
+        } else if (type === 'pie') {
+          console.log('generate pie chart')
+          d3Pie.addPie({svg: svg, data: dataset, x: xaxis, y: yaxis})
+        } else {
+          console.log(type + ' plot not set up...')
+        }
+      },
+      async plotRecords (type) {
+        console.log('Plot ')
+        var svg = d3Svg.initSvg({clear: true, canvasHeight: 600, canvasWidth: 900})
+
+        if (this.yOperator === 'Count') { this.yAxis = this.xAxis }
+        await d3Data.loadDataSet(this.Hashes, this.xAxis, this.yAxis, this.yOperator, this.yGroup)
+        .then (dataset => {
+          console.log('retrieved parsed dataset: ' + JSON.stringify(dataset))
+
+          var xaxis = this.xAxis
+          var yaxis = (this.xAxis === this.yAxis) ? this.yOperator : this.yOperator + ' ' + this.yAxis
+          
+          if (type === 'bar') {
+            console.log('generate bar chart..')
+            d3Bar.addBars({svg: svg, data: dataset, x: xaxis, y: yaxis})
+          } else if (type === 'pie') {
+            d3Pie.addPie({svg: svg, data: dataset, x: xaxis, y: yaxis})
+          } else {
+            console.log(type + ' plotting not yet set up... ')
+          }
+        })
+        .catch (err => {
+          console.log('err: ' + err.message)
+        })      
+
+      }
+    },
+    computed: {
+      Hashes: function () {
+        return this.$store.state.hash.hashes
+      },
+      Summary: function () {
+        return this.$store.state.hash.summary
+      }
+
+    }
+  }
+</script>
