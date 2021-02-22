@@ -1,6 +1,6 @@
 {
   "name": "pie",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "pie chart plotting helper using d3",
   "main": "index.js",
   "scripts": {
