@@ -1,12 +1,6 @@
-0 silly argv { _: [ 'create' ], lernaVersion: '3.22.1', '$0': 'lerna', name: 'svg' }
+0 silly argv { _: [ 'bootstrap' ], lernaVersion: '3.22.1', '$0': 'lerna' }
 1 notice cli v3.22.1
 2 verbose rootPath /Users/rguin/Cosine/public/lerna/d3-helper
-3 error Error: Command failed: git config --get user.name
-3 error
-3 error
-3 error     at makeError (/Users/rguin/.nvm/versions/node/v12.13.0/lib/node_modules/lerna/node_modules/execa/index.js:174:9)
-3 error     at Function.module.exports.sync (/Users/rguin/.nvm/versions/node/v12.13.0/lib/node_modules/lerna/node_modules/execa/index.js:338:15)
-3 error     at Object.execSync (/Users/rguin/.nvm/versions/node/v12.13.0/lib/node_modules/lerna/node_modules/@lerna/child-process/index.js:26:16)
-3 error     at CreateCommand.gitConfig (/Users/rguin/.nvm/versions/node/v12.13.0/lib/node_modules/lerna/node_modules/@lerna/create/index.js:181:34)
-3 error     at CreateCommand.initialize (/Users/rguin/.nvm/versions/node/v12.13.0/lib/node_modules/lerna/node_modules/@lerna/create/index.js:103:46)
-3 error     at /Users/rguin/.nvm/versions/node/v12.13.0/lib/node_modules/lerna/node_modules/@lerna/command/index.js:272:24
+3 error JSONError: Unexpected end of JSON input while parsing near '' in c3/package.json
+3 error     at module.exports (/Users/rguin/.nvm/versions/node/v12.13.0/lib/node_modules/lerna/node_modules/parse-json/index.js:26:19)
+3 error     at parse (/Users/rguin/.nvm/versions/node/v12.13.0/lib/node_modules/lerna/node_modules/load-json-file/index.js:15:9)
