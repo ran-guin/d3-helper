@@ -33,19 +33,9 @@
     "vuetify-loader": "^1.7.0"
   },
   "directories": {
-    "lib": "lib",
-    "dist": "dist"
+    "lib": "lib"
   },
   "files": [
-    "lib",
-    "dist"
-  ],
-  "publishConfig": {
-    "access": "public"
-  }
-  // "repository": {
-  //   "type": "git",
-  //   "url": "git+https://github.com/rg-druid"
-  // }
-
+    "lib"
+  ]
 }
