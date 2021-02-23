@@ -87,7 +87,7 @@
   import DataLoader from './DataLoader'
   const DataTable = () => import('./DataTable')
 
-  import d3Parser from './../../data/lib/d3-parse-data.js'
+  import d3Parser from './../../d3-data-helper/lib/d3-parse-data.js'
 
   export default {
     name: 'Upload',

@@ -77,11 +77,11 @@
 
 <script>
   // import D3Loader from './D3Loader'
-  import d3Svg from './../../svg/lib/d3-svg.js'
-  import d3Data from './../../data/lib/d3-data.js'
-  import d3Bar from './../../bar/lib/d3-bar.js'
-  import d3Pie from './../../pie/lib/d3-pie.js'
-  import d3Scatter from './../../scatter/lib/d3-scatter.js'
+  import d3Svg from './../../d3-svg-helper/lib/d3-svg.js'
+  import d3Data from './../../d3-data-helper/lib/d3-data.js'
+  import d3Bar from './../../d3-bar-helper/lib/d3-bar.js'
+  import d3Pie from './../../d3-pie-helper/lib/d3-pie.js'
+  import d3Scatter from './../../d3-scatter-helper/lib/d3-scatter.js'
 
   import Demo from './demo'
 

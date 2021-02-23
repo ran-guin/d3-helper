@@ -1,6 +1,6 @@
 {
   "name": "d3-data-helper",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "data parsing in prep for d3 visualization",
   "main": "index.js",
   "directories": {
@@ -22,5 +22,19 @@
     "d3": "^6.5.0",
     "read-excel-file": "^5.0.0"
   },
-  "gitHead": "2307d293c335453581bfa3704109cec224c75757"
+  "gitHead": "2307d293c335453581bfa3704109cec224c75757",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/d3-data-helper.git"
+  }
+
 }

@@ -68,10 +68,10 @@
 
   const Test = () => import('./Test')
 
-  import d3Svg from './../../svg/lib/d3-svg.js'
-  import d3Bar from './../../bar/lib/d3-bar.js'
-  import d3Pie from './../../pie/lib/d3-pie.js'
-  import d3Data from './../../data/lib/d3-data.js'
+  import d3Svg from './../../svg-svg-helper/lib/d3-svg.js'
+  import d3Bar from './../../svg-bar-helper/lib/d3-bar.js'
+  import d3Pie from './../../svg-pie-helper/lib/d3-pie.js'
+  import d3Data from './../../svg-data-helper/lib/d3-data.js'
 
 
   export default {

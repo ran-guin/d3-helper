@@ -1,6 +1,6 @@
 {
   "name": "d3-svg-helper",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "initialize svg object for use with d3 plotting",
   "main": "index.js",
   "scripts": {
@@ -11,5 +11,18 @@
   "dependencies": {
     "d3": "^6.5.0"
   },
-  "gitHead": "2307d293c335453581bfa3704109cec224c75757"
+  "gitHead": "2307d293c335453581bfa3704109cec224c75757",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/d3-svg-helper.git"
+  }
 }
