@@ -89,7 +89,7 @@
   import d3Pie from 'd3-pie-helper'
   import d3Scatter from 'd3-scatter-helper'
 
-  import Demo from './../demo'
+  import Demo from './../public/demo'
 
   export default {
     name: 'DataPlot',

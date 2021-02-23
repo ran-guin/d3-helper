@@ -1,3 +1,3 @@
-import 'scatter' from './lib/d3-scatter.js'
+import scatter from './lib/d3-scatter.js'
 
 export {scatter}

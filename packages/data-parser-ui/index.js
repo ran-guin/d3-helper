@@ -1,13 +1,18 @@
-'use strict';
+import Bar from 'Bar'
+// import 'D3Loader' from 'D3Loader'
+import Data2Database from 'Data2Database'
+import DataColumn from 'DataColumn'
+// import 'DataLoader' from 'DataLoader'
+import DataPlot from 'DataPlot'
+import DataReport from 'DataReport'
+import DataTable from 'DataTable'
+import DataView from 'DataView'
+import Labels from 'Labels'
+import RawData from 'RawData'
+import Svg from 'Svg'
+import Test from 'Test'
+import Upload from 'Upload'
+import Welcome from 'Welcome'
 
-import svg from './lib/d3-svg.js.js'
+export {Bar, Data2Database, DataColumn, DataPlot, DataReport, DataTable, DataView, Labels, RawData, Svg, Test, Upload, Welcome}
 
-export {svg}
-
-var d3Svg = require('d3-svg-helper')
-var d3Data = require('d3-data-helper')
-var d3Bar = require('d3-bar-helper')
-var d3PieChart = require('d3-pie-helper')
-var d3Scatter = require('d3-scatter-helper')
-var c3Helper = require('c3-helper')
-console.log('req d3-svg, d3-data, d3-bar, d3-pieChart, d3-scatter, c3-helper from druid')

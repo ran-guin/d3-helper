@@ -1,4 +1,4 @@
-import 'c3' from './lib/c3-helper.js'
+import 'c3' from './lib/c3-helper.js';
 
 import 'c3Canvas' from './lib/c3Canvas'
 import 'c3Helper' from './lib/c3Canvas'
