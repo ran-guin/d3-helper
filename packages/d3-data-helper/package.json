@@ -1,6 +1,6 @@
 {
   "name": "d3-data-helper",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "data parsing in prep for d3 visualization",
   "main": "index.js",
   "directories": {
