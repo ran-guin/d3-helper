@@ -1,5 +1,5 @@
 {
-  "name": "druid",
+  "name": "data-parser",
   "version": "0.0.7",
   "private": true,
   "scripts": {

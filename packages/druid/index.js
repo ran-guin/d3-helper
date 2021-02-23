@@ -1,8 +1,0 @@
-var d3Svg = require('d3-svg')
-var d3Data = require('d3-data')
-var d3ParseData = require('d3-parse-data')
-var d3Bar = require('d3-bar')
-var d3PieChart = require('d3-pie')
-var d3Scatter = require('d3-scatter')
-var c3Helper = require('c3-helper')
-console.log('req d3-svg, d3-data, d3-parse-data, d3-bar, d3-pieChart, d3-scatter, c3-helper from druid')
