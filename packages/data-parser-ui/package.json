@@ -1,6 +1,6 @@
 {
   "name": "data-parser-ui",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -32,10 +32,12 @@
     "vuetify-loader": "^1.7.0"
   },
   "directories": {
-    "lib": "lib"
+    "lib": "lib",
+    "public": "public"
   },
   "files": [
-    "lib"
+    "lib",
+    "public"
   ],
   "gitHead": "656d7899da90c5d23720a882c9164b3be00d417a"
 }
