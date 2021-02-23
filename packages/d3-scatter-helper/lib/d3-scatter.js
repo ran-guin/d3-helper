@@ -1,5 +1,5 @@
 import * as d3 from 'd3'
-import d3Svg from './../../svg/lib/d3-svg.js'
+import d3Svg from './../../d3-svg-helper/lib/d3-svg.js'
 
 function addScatter(options) {   
   console.log('add scatter chart: ' + JSON.stringify(options))

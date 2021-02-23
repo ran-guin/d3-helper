@@ -1,6 +1,6 @@
 {
   "name": "d3-bar-helper",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "bar plotting helper using d3",
   "main": "index.js",
   "scripts": {

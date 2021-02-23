@@ -1,5 +1,5 @@
 import * as d3 from 'd3'
-import d3Svg from './../../d3-svg/lib/d3-svg.js'
+import d3Svg from '../../d3-svg-helper/lib/d3-svg.js'
 
 function addPie(options) {   
   console.log('add pie chart: ' + JSON.stringify(options))

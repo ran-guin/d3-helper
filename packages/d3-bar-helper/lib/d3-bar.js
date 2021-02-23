@@ -1,8 +1,8 @@
 
 import * as d3 from 'd3'
 
-import d3Svg from './../../d3-svg/lib/d3-svg.js'
-import d3Data from './../../d3-data/lib/d3-data.js'
+import d3Svg from '../../d3-svg-helper/lib/d3-svg.js'
+import d3Data from '../../d3-data-helper/lib/d3-data.js'
 
 function testSvg (input) {
   console.log('svg test...' + JSON.stringify(input))
