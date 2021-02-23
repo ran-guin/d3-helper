@@ -23,9 +23,6 @@
     "read-excel-file": "^5.0.0"
   },
   "gitHead": "2307d293c335453581bfa3704109cec224c75757",
-  "directories": {
-    "lib": "lib"
-  },
   "files": [
     "lib"
   ],
@@ -36,5 +33,4 @@
     "type": "git",
     "url": "git+https://github.com/d3-data-helper.git"
   }
-
 }
