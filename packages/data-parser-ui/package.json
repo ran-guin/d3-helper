@@ -1,5 +1,5 @@
 {
-  "name": "data-parser",
+  "name": "data-parser-ui",
   "version": "0.0.8",
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -36,5 +36,6 @@
   },
   "files": [
     "lib"
-  ]
+  ],
+  "gitHead": "656d7899da90c5d23720a882c9164b3be00d417a"
 }

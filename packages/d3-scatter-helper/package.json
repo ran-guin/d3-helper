@@ -17,7 +17,7 @@
   "dependencies": {
     "d3": "^6.5.0"
   },
-  "gitHead": "2307d293c335453581bfa3704109cec224c75757",
+  "gitHead": "656d7899da90c5d23720a882c9164b3be00d417a",
   "directories": {
     "lib": "lib"
   },
