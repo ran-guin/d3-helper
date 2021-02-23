@@ -1,6 +1,6 @@
 {
   "name": "d3-scatter-helper",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "scatter plot d3 visualization",
   "main": "index.js",
   "scripts": {

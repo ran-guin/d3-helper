@@ -1,6 +1,6 @@
 {
   "name": "d3-svg-helper",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "initialize svg object for use with d3 plotting",
   "main": "index.js",
   "scripts": {
