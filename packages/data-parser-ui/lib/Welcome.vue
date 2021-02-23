@@ -73,10 +73,10 @@
   // import d3Pie from './../../svg-pie-helper/lib/d3-pie.js'
   // import d3Data from './../../svg-data-helper/lib/d3-data.js'
 
-  import d3Svg from 'svg-svg-helper'
-  import d3Bar from 'svg-bar-helper'
-  import d3Pie from 'svg-pie-helper'
-  import d3Data from 'svg-data-helper'
+  import d3Svg from 'd3-svg-helper'
+  import d3Bar from 'd3-bar-helper'
+  import d3Pie from 'd3-pie-helper'
+  import d3Data from 'd3-data-helper'
 
   export default {
     name: 'Welcome',

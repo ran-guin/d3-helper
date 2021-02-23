@@ -52,9 +52,9 @@
   import d3Bar from 'd3-bar-helper'
   import d3Pie from 'd3-pie-helper'
   import d3Scatter from 'd3-scatter-helper'
-  
+
   import d3Data from 'd3-data-helper/lib/d3-data'
-  import d3Parse from 'd3-data-helper/lib/d3-data-parse'
+  // import d3Parse from 'd3-data-helper/lib/d3-data-parse'
 
   export default {
     name: 'Test',
@@ -146,14 +146,14 @@
 
           console.log("JSON: " + JSON.stringify(raw))
 
-          d3Parse.loadRaw(JSON.stringify(raw), 'JSON')
-          .then( dataset => {
-            console.log("reformatted to: " + JSON.stringify(dataset))
-            this.$store.dispatch('setHash', dataset)
-          })
-          .catch( err => {
-            console.log("Error: " + err.message)
-          })
+          // d3Parse.loadRaw(JSON.stringify(raw), 'JSON')
+          // .then( dataset => {
+          //   console.log("reformatted to: " + JSON.stringify(dataset))
+          //   this.$store.dispatch('setHash', dataset)
+          // })
+          // .catch( err => {
+          //   console.log("Error: " + err.message)
+          // })
         } else if (type === 'excel') {
           this.data = [
             ['George', 42, 'S'],
