@@ -13,22 +13,15 @@
 </template>
 
 <script>
-  import DataLoader from './DataLoader'
 
   export default {
     name: 'DataTable',
-    // mixins: [
-    //   sharedData
-    // ],
     data () {
       return {
         headers: [],
         selected: []
       }
     },
-    mixins: [
-      DataLoader
-    ],
     props: {
     },
     created () {

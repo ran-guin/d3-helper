@@ -33,7 +33,6 @@
 </template>
 
 <script>
-  import DataLoader from './DataLoader'
   const DataColumn = () => import('./DataColumn')
 
   export default {
@@ -51,9 +50,6 @@
     components: {
       DataColumn
     },
-    mixins: [
-      DataLoader
-    ],
     props: {
       Dataset: {
         type: Object

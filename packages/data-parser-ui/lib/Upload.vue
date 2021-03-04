@@ -28,7 +28,6 @@
                       v-row.justify-space-around
                         v-btn.btn-primary(@click='resetTable({reset: true, headersIncluded: true})') Use First Line for Headers
                         v-btn.btn-primary(@click='presetHeaders') Manually Define Headers
-
                       hr                    
                 div(v-else)                             
                   v-file-input(v-model='uploadFile' id='uploadFile' label='Data File' @change='listen("csv")' :multiple='true')
@@ -42,10 +41,9 @@
             v-card-text
               v-container
                 h3 Use Demo Data:
-                v-radio-group(v-model='demoFileType')
-                  v-radio(label='csv' value='csv')
-                  v-radio(label='tsv' value='tsv')
-                  v-radio(label='excel' value='excel')
+                v-radio-group(v-model='demoType')
+                  v-radio(v-for='dType in demoTypes' :label='dType + " - " + Demo[dType].description' :value='dType')
+                    //- span(v-if='Demo[dType]') {{Demo[dType].description}}
                 v-btn.btn-primary#demo(@click='listen("demo")') Load Demo File
 
         v-tab(key='raw' ripple) Raw Data
@@ -84,16 +82,14 @@
 </template>
 
 <script>
-  import DataLoader from './DataLoader'
   const DataTable = () => import('./DataTable')
 
-  // import d3Parser from './../../d3-data-helper/lib/d3-parse-data.js'
-  import d3Parser from 'd3-data-helper'
+  import d3DataPrep from 'd3-data-prep'
+  import Demo from './Demo.js'
 
   export default {
     name: 'Upload',
     mixins: [
-      DataLoader
     ],
     components: {
       DataTable
@@ -101,11 +97,17 @@
     data () {
       return {
         uploadTypes: [],
+        uploadMessage: '',
+        uploadError: '',
+        dataSource: '',
+
+
         rawTypes: [],
         // excelFile: null,
         uploadFile: null,
         demoFile: null,
-        demoFileType: 'csv',
+        demoType: 'csv',
+        demoTypes: ['gdp', 'covid', 'spreadsheet'],
         raw: '',
         headers: [],
         
@@ -137,18 +139,29 @@
       },
       Summary: function () {
         return this.$store.state.hash.summary || {}
-      }     
+      },
+      Demo: function () {
+        return Demo
+      }    
     },
     methods: {
+      clearRecord () {
+        console.log('clear stored data hash')
+        this.$store.dispatch('setHash', {})
+      },
       async listen (type) {
-        console.log('check for file upload...' + type)
 
-        // if (this.excelFile) { console.log('excel FILE found: ' + this.excelFile.length) }
-        if (this.uploadFile) { console.log('FILE found: ' + this.uploadFile.length) }
-        if (this.demoFile) { console.log('use demo File') }
+        if (type === 'demo') {
+          console.log('use demo File')
+          var demo = Demo[this.demoType]
+          console.log("Loaded Demo Data: " + JSON.stringify(demo))
+          console.log('type: ' + demo.dataset.constructor)
+          this.$set(this, 'raw', demo.dataset)
 
-        if (this.uploadFile && this.uploadFile.length) {
-          d3Parser.loadFile(this.uploadFile)
+          this.loadRaw(demo.dataset)
+        } else if (this.uploadFile && this.uploadFile.length) {
+          console.log('FILE found: ' + this.uploadFile.length)
+          d3DataPrep.loadFile(this.uploadFile)
           .then( dataset => {
             console.log("UPLOADED IN UPLOAD: " + JSON.stringify(Object.keys(dataset)))
 
@@ -158,10 +171,14 @@
           console.log('no ' + type + ' file defined')
         }
       },
-      loadRaw: function (source) {
+      async loadRaw (source) {
         var raw = this.raw
-        console.log('loading raw ' + source + ' data: ' + raw)
-        // this.dataset = this.initData(raw, source)
+
+        console.log('loading Raw ' + source + ' data: ' + raw + ' as ' + raw.constructor)
+        
+        var dataset = await d3DataPrep.loadRaw(raw, source)
+        console.log('loaded: ' + JSON.stringify(dataset))
+        this.$store.dispatch('setHash', dataset)
       }
     },
     watch: {

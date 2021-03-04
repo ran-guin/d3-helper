@@ -1,9 +1,6 @@
 <template lang='pug'>
   div
     v-container
-      h2 Excel -> Database Translator
-      hr
-      h4 {{title}}
       v-tabs(v-model='options')
         v-tab(v-if='!Dataset.original' key='upload' ripple) Upload
         v-tab-item(v-if='!Dataset.original' key='upload')
@@ -68,15 +65,11 @@
 
   const Test = () => import('./Test')
 
-  // import d3Svg from './../../svg-svg-helper/lib/d3-svg.js'
-  // import d3Bar from './../../svg-bar-helper/lib/d3-bar.js'
-  // import d3Pie from './../../svg-pie-helper/lib/d3-pie.js'
-  // import d3Data from './../../svg-data-helper/lib/d3-data.js'
-
-  import d3Svg from 'd3-svg-helper'
-  import d3Bar from 'd3-bar-helper'
-  import d3Pie from 'd3-pie-helper'
-  import d3Data from 'd3-data-helper'
+  import d3Svg from 'svg-d3'
+  import d3Bar from 'bar-plot-d3'
+  import d3Pie from 'pie-chart-d3'
+  import d3Data from 'd3-data-parser'
+  import d3Prep from 'd3-data-prep'
 
   export default {
     name: 'Welcome',
@@ -187,7 +180,7 @@
         console.log("REFORMAT: " + JSON.stringify(this.reformatted))
         console.log("HEADERS: " + JSON.stringify(this.headers))
 
-        d3Data.loadRawData(this.data)
+        d3Prep.loadRawData(this.data)
       },
       testPlot (type) {
         // var svg = d3Helper.initSvg({clear: true, canvasHeight: 600, canvasWidth: 900})
@@ -261,7 +254,7 @@
     watch: {
       Dataset () {
         console.log('Dataset modified...' + this.options)
-        if (this.Dataset.original) {
+        if (this.Dataset && this.Dataset.original) {
           this.options++
           console.log('reset option to data')
         }

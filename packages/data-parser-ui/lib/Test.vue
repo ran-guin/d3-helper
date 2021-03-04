@@ -41,20 +41,13 @@
 </template>
 
 <script>
-  // import d3Svg from './../../d3-svg-helper/lib/d3-svg.js'
-  // import d3Bar from './../../d3-bar-helper/lib/d3-bar.js'
-  // import d3Pie from './../../d3-pie-helper/lib/d3-pie.js'
-  // import d3Scatter from './../../d3-scatter-helper/lib/d3-scatter.js'
-  // import d3Data from './../../d3-data-helper/lib/d3-data.js'
-  // import d3Parse from './../../d3-data-helper/lib/d3-parse-data.js'
+  import d3Svg from 'svg-d3'
+  import d3Bar from 'bar-plot-d3'
+  import d3Pie from 'pie-chart-d3'
+  import d3Scatter from 'scatter-plot-d3'
 
-  import d3Svg from 'd3-svg-helper'
-  import d3Bar from 'd3-bar-helper'
-  import d3Pie from 'd3-pie-helper'
-  import d3Scatter from 'd3-scatter-helper'
-
-  import d3Data from 'd3-data-helper/lib/d3-data'
-  // import d3Parse from 'd3-data-helper/lib/d3-data-parse'
+  import d3Data from 'd3-data-prep'
+  import d3Parse from 'd3-data-parser'
 
   export default {
     name: 'Test',
@@ -146,14 +139,14 @@
 
           console.log("JSON: " + JSON.stringify(raw))
 
-          // d3Parse.loadRaw(JSON.stringify(raw), 'JSON')
-          // .then( dataset => {
-          //   console.log("reformatted to: " + JSON.stringify(dataset))
-          //   this.$store.dispatch('setHash', dataset)
-          // })
-          // .catch( err => {
-          //   console.log("Error: " + err.message)
-          // })
+          d3Parse.loadRaw(JSON.stringify(raw), 'JSON')
+          .then( dataset => {
+            console.log("reformatted to: " + JSON.stringify(dataset))
+            this.$store.dispatch('setHash', dataset)
+          })
+          .catch( err => {
+            console.log("Error: " + err.message)
+          })
         } else if (type === 'excel') {
           this.data = [
             ['George', 42, 'S'],

@@ -26,8 +26,6 @@
 </template>
 
 <script>
-  import DataLoader from './DataLoader'
-
   // const RawData = () => import('./RawData')
 
   import RawData from './RawData'
@@ -45,15 +43,16 @@
     components: {
       RawData
     },
-    mixins: [
-      DataLoader
-    ],
     props: {
     },
     created () {
       console.log('load Data Page')
     },
     methods: {
+      clearRecord () {
+        console.log('clear stored data hash')
+        this.$store.dispatch('setHash', {})
+      }
     },
     computed: {
       Hashes: function () {

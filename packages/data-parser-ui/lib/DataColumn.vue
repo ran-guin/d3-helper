@@ -25,23 +25,25 @@
                   b.coloured {{Column.unique_count}}
               tr
                 td 
-                  h3.message Type: 
+                  h3.message Raw Type: 
                 td
                   b.coloured {{Column.type}} &nbsp;
-
+              tr
+                td
+                  h3.message DB Type:
                   span(v-if='Column.numeric')
-                    b.coloured (Int) &nbsp;
+                    b.coloured Int &nbsp;
                   span(v-else-if='Column.decimal')
-                    b.coloured (Decimal) &nbsp;
+                    b.coloured Decimal &nbsp;
                   span(v-else-if='Column.date')
-                    b.coloured (Date) &nbsp;
+                    b.coloured Date &nbsp;
                   span(v-else-if='Column.time')
-                    b.coloured (Date) &nbsp;
+                    b.coloured DateTime &nbsp;
                   span(v-else)
-                    b.coloured (VARCHAR) &nbsp;
+                    b.coloured VARCHAR &nbsp;
 
                   span(v-if='Column.min_length === Column.max_length') 
-                    b.message [L = {{Column.min_length}}] &nbsp;                  
+                    b.message [Length = {{Column.min_length}}] &nbsp;                  
               tr(v-if='Column.unique_options && (Column.non_zero_unique_count <= maxEnum)')
                 td
                   b.coloured Unique Options
@@ -108,13 +110,9 @@
 </template>
 
 <script>
-  import DataLoader from './DataLoader'
 
   export default {
     name: 'DataPlot',
-    mixins: [
-      DataLoader
-    ],
     data () {
       return {
         headers: [],

@@ -43,6 +43,26 @@
                           h3 Group (optional)
                           v-radio-group(v-model='yColumn')
                             v-radio(v-for='label in Summary.labels' :label='label.text' :value='label.text' @click='loadYGroup')
+            v-tab(key='options' ripple) Options
+            v-tab-item(key='opions')
+              p &nbsp;
+              v-row
+                v-col(cols='8')
+                  v-container(style='border: 1px solid black')
+                    PlotOptions(:options='plotOptions' :onUpdate='updateOptions')
+                      //- v-row.justify-space-around
+                      //-   v-col
+                      //-     h3 Size:
+                      //-     v-radio-group(v-model='yAxis')
+                      //-       v-radio(v-for='label in Summary.labels' :value='label.text' :label='label.text' @click='loadYAxis')
+                      //-   v-col
+                      //-     h3 Axes:
+                      //-     v-radio-group(v-model='yOperator')
+                      //-       v-radio(v-for='type in yOperators' :label='type' :value='type' @click='loadYOperator')
+                      //-   v-col
+                      //-     h3 Labels
+                      //-     v-radio-group(v-model='yColumn')
+                      //-       v-radio(v-for='label in Summary.labels' :label='label.text' :value='label.text' @click='loadYGroup')
         v-col(cols='4')
           v-container
             p &nbsp;
@@ -76,27 +96,20 @@
 </template>
 
 <script>
-  // import D3Loader from './D3Loader'
-  // import d3Svg from './../../d3-svg-helper/lib/d3-svg.js'
-  // import d3Data from './../../d3-data-helper/lib/d3-data.js'
-  // import d3Bar from './../../d3-bar-helper/lib/d3-bar.js'
-  // import d3Pie from './../../d3-pie-helper/lib/d3-pie.js'
-  // import d3Scatter from './../../d3-scatter-helper/lib/d3-scatter.js'
 
-  import d3Svg from 'd3-svg-helper'
-  import d3Data from 'd3-data-helper'
-  import d3Bar from 'd3-bar-helper'
-  import d3Pie from 'd3-pie-helper'
-  import d3Scatter from 'd3-scatter-helper'
+  import d3Svg from 'svg-d3'
+  // import d3DataPrep from 'd3-data-prep'
+  import d3DataParse from 'd3-data-parser'
+  import d3Bar from 'bar-plot-d3'
+  import d3Pie from 'pie-chart-d3'
+  import d3Scatter from 'scatter-plot-d3'
 
   import Demo from './Demo.js'
 
+  const PlotOptions = () => import('./PlotOptions')
+
   export default {
     name: 'DataPlot',
-    // mixins: [
-    //   D3Loader,
-    //   d3Svg
-    // ],
     data () {
       return {
         headers: [],
@@ -107,8 +120,16 @@
         yAxis: '',
         yOperator: '',
         yColumn: '',
-        yOperators: ['Count', 'Sum', 'Avg']
+        yOperators: ['Count', 'Sum', 'Avg'],
+
+        plotOptions: {
+
+        },
+        plotType: null
       }
+    },
+    components: {
+      PlotOptions
     },
     props: {
     },
@@ -135,7 +156,7 @@
         var y = data.yAxis
 
         console.debug('*** Plot: ' + JSON.stringify(data))
-        var dataset = await d3Data.loadDataSet(data.dataset, x, y, this.yOperator, this.yGroup)
+        var dataset = await d3DataParse.loadDataSet(data.dataset, x, y, this.yOperator, this.yGroup)
 
         console.log('*** Filtered to: ' + JSON.stringify(dataset))
 
@@ -163,11 +184,12 @@
         }
       },
       async plotRecords (type, subtype) {
-        console.log('Plot ')
+        console.log('Plot ' + type + ' : ' + subtype)
+        this.plotType = type
         var svg = d3Svg.initSvg({clear: true, canvasHeight: 600, canvasWidth: 900})
 
         if (this.yOperator === 'Count') { this.yAxis = this.xAxis }
-        await d3Data.loadDataSet(this.Hashes, this.xAxis, this.yAxis, this.yOperator, this.yGroup)
+        await d3DataParse.loadDataSet(this.Hashes, this.xAxis, this.yAxis, this.yOperator, this.yGroup)
         .then (dataset => {
           console.log('retrieved parsed dataset: ' + JSON.stringify(dataset))
 
@@ -197,6 +219,9 @@
           console.log('err: ' + err.message)
         })      
 
+      },
+      updateOptions (options) {
+        console.log('updated Options: ' + JSON.stringify(options))
       }
     },
     computed: {
