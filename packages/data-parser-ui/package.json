@@ -7,7 +7,13 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "bar-plot-d3": "^1.*",
     "core-js": "^3.6.5",
+    "d3-data-parser": "^1.*",
+    "d3-data-prep": "^1.0.2",
+    "pie-chart-d3": "^1.*",
+    "scatter-plot-d3": "^1.*",
+    "svg-d3": "^1.*",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
     "vuetify": "^2.4.0",
@@ -33,11 +39,13 @@
   },
   "directories": {
     "lib": "lib",
-    "public": "public"
+    "public": "public",
+    "dist": "dist"
   },
   "files": [
     "lib",
-    "public"
+    "public",
+    "dist"
   ],
   "gitHead": "656d7899da90c5d23720a882c9164b3be00d417a"
 }
