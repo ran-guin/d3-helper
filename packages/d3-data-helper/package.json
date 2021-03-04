@@ -32,5 +32,8 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/d3-data-helper.git"
+  },
+  "devDependencies": {
+    "@vue/cli": "^4.5.11"
   }
 }

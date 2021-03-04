@@ -83,6 +83,7 @@ function loadAofA (data) {
 
 function test (data) {
   console.log('testing...' + JSON.stringify(data))
+  return 'ok'
 }
 
 async function loadFile (files) {
